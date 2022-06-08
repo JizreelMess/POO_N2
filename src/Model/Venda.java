@@ -3,6 +3,7 @@ package Model;
 
 
 public class Venda {
+    
     private int idVenda;
     private String idCliente;
     private String nomeCliente;

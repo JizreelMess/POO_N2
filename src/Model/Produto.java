@@ -8,7 +8,9 @@ public class Produto {
     private double valorUnitario;
     private String tipoUnidade;
     private int qtdEstoque; 
-
+    
+    public Produto(){}
+    
     public int getIdProduto() {
         return idProduto;
     }
