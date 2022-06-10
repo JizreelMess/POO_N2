@@ -8,7 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 public class BancoDados {
-
+    private int idProduto;
+    private String nomeProduto;
+    private double valorUnitario;
+    private String tipoUnidade;
+    private int qtdEstoque;
+    
 	private Connection con = null;
 	private Statement stm  = null;
 	private ResultSet result = null;
@@ -28,7 +33,7 @@ public class BancoDados {
 			System.out.println("erro na conexao : " + e.getMessage());
 		}
 	}
-	public boolean estaConecatdo() {
+	public boolean estaConectado() {
 		if (this.con != null) {
 			return true;
 		}
@@ -36,7 +41,7 @@ public class BancoDados {
 			return false;
 		}
 	}
-	public void listar(int id) {
+	public void seleciona(int id) {
 		try {
 			String minhaQuery = "SELECT * FROM produtos where idProduto ="+id;
 			this.result = this.stm.executeQuery(minhaQuery);
@@ -54,21 +59,30 @@ public class BancoDados {
 			}
 		} 
                 catch(Exception e) {
-			System.out.println("Erro na lista: "+ e.getMessage());
+			System.out.println("Erro ao carregar lista: "+ e.getMessage());
 		}
 	}
 	public void inserir(Produto produto) {
+ 
 		try {
-			String query = "INSERT INTO produtos (nomeProduto,valorUnitario,tipoUnidade,qtdEstoque) VALUES('"+ produto.getNomeProduto()+produto.getValorUnitario()+produto.getTipoUnidade()+produto.getQtdEstoque()+"');";
+                    
+                    String nomeProduto = produto.getNomeProduto();
+                    double valorUnitario = produto.getValorUnitario();
+                    String tipoUnidade = produto.getTipoUnidade();
+                    int qtdEstoque = produto.getQtdEstoque();
+                   
+			String query = "INSERT INTO produtos (nomeProduto,valorUnitario,tipoUnidade,qtdEstoque) VALUES('"+nomeProduto+"','"+valorUnitario+"','"+tipoUnidade+"','"+qtdEstoque+"');";
+                 
+
 			this.stm.executeUpdate(query);
-			System.out.println("Produto " +produto.getNomeProduto() + "Incuido com SUCESSO" );
+			System.out.println("Produto:" +produto.getNomeProduto() + "Incuido com SUCESSO" );
 			
 		} catch(Exception e) {
 			System.out.println("Erro na Inclusao: "+ e.getMessage());
 		}
 	}
         
-	public void editar(int id, int quatCompra) {
+	public void atualizaEstoque(int id, int quatCompra) {
 		try {
 			String query = "UPDATE produtos SET qtdEstoque = qtdEstoque-"+quatCompra+" WHERE idProduto = " +id;
 			this.stm.executeUpdate(query);
@@ -76,15 +90,15 @@ public class BancoDados {
 		} 
                 catch(Exception e) 
                 {
-			System.out.println("Erro na Alteracao: "+ e.getMessage());
+			System.out.println("Erro na Atualização de Estoque! "+ e.getMessage());
 		}
 	}
         
-    public void excluir(String id) {
+    public void excluir(int id) {
     	try {
-			String query = "DELETE FROM cliente WHERE id = " + id + ";";
+			String query = "DELETE FROM produtos WHERE idProduto = " + id + ";";
 			this.stm.executeUpdate(query);
-			System.out.println("ID: "+ id + "EXCLUIDO COM SUCESSO");
+			System.out.println("idProduto: "+ id + "EXCLUIDO COM SUCESSO");
 			
 		} 
         catch(Exception e) 

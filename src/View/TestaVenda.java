@@ -17,28 +17,34 @@ public class TestaVenda {
 		BancoDados bancoDados = new BancoDados();
                 
 		bancoDados.conecta();
+               
+              
                 
-                
-		if (bancoDados.estaConecatdo()) {
+		if (bancoDados.estaConectado()) {
                     
-                    
+                   produto.setNomeProduto("novo");
+                   produto.setValorUnitario(50);
+                   produto.setTipoUnidade("");
+                   produto.setQtdEstoque(20);
+                   bancoDados.inserir(produto);
+                   
                     System.out.println("Lista de produtos:");
                     bancoDados.CarregarLista();
                     
-                    System.out.println("Escolha um produto:");
+                    System.out.print("Escolha um produto:");
                     int escolhaNum = teclado.nextInt();
                     
                     System.out.println("Adicionado ao carrinho!");
-		     bancoDados.listar(escolhaNum);
-                    System.out.println("Quantidade de compra: ");
-		   int quantidade = teclado.nextInt();
+		     bancoDados.seleciona(escolhaNum);
+                    System.out.print("Quantidade de compra: ");
+		    int quantidade = teclado.nextInt();
                    
                    itens.setQtdVendida(quantidade); 
                    
-                    bancoDados.editar(escolhaNum,quantidade);
+                    bancoDados.atualizaEstoque(escolhaNum,quantidade);
                     
                     System.out.println("Estoque atual do produto!!");
-                    bancoDados.listar(escolhaNum);
+                    bancoDados.seleciona(escolhaNum);
                     
 		}
                 
@@ -49,5 +55,4 @@ public class TestaVenda {
 		}
 }
 
-        //bancoDados.inserir(produto);
-        //bancoDados.editar(4,20);
+      
